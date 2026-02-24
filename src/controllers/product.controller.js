@@ -38,9 +38,10 @@ const getProducts = async (req, res) => {
       filter.title = { $regex: search, $options: "i" };
     }
 
-    const products = await Product.find(filter).populate("category");
-
-    res.json(products);
+    const products = await Product.find(filter)
+      .populate("category")
+      .populate("superCategory");
+    res.json({ data: products });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
